@@ -2,12 +2,12 @@
 {
     public class Problem : IModel
     {
-        Problem() { }
+        public Problem() { }
         public Problem(string? partID, string? VIN, int userID, int stationID, 
             int sideID, string? workInstruction, int partQuantity, 
-            int missingPart, string? issue, string? openedOn, 
+            bool missingPart, string? issue, DateTime? openedOn, 
             int closedByUser, int closedOnStation, int closedQuantity, 
-            string? closedComments, string? fixType, string? closedOn)
+            string? closedComments, string? fixType, DateTime? closedOn)
         {
             this.partID = partID;
             this.VIN = VIN;
@@ -34,15 +34,15 @@
         public int sideID { get; set; }
         public string? workInstruction { get; set; }
         public int partQuantity { get; set; }
-        public int missingPart { get; set; }
+        public bool missingPart { get; set; }
         public string? issue { get; set; }
-        public string? openedOn { get; set; }
+        public DateTime? openedOn { get; set; }
         public int closedByUser { get; set; }
         public int closedOnStation { get; set; }
         public int closedQuantity { get; set; }
         public string? closedComments { get; set; }
         public string? fixType { get; set; }
-        public string? closedOn { get; set; }
+        public DateTime? closedOn { get; set; }
 
         override public string ToString()
         {
