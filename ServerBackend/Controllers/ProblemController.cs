@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServerBackend.Models;
+using ServerBackend.Responses;
+using ServerBackend.Services;
 //using System.Web.Http;
 
 namespace ServerBackend.Controllers
@@ -8,15 +11,17 @@ namespace ServerBackend.Controllers
     public class ProblemController : ControllerBase
     {
         [HttpGet(Name = "GetProblem")]
-        public string Get()
+        public IResponse Get()
         {
-            return "problems";
+            IResponse response = GetProblemService.Instance().execute();
+            return response;
         }
 
         [HttpPost(Name = "PostProblem")]
         public string Post(string request)
         {
             return request;
+            IModel problem = new Problem();
         }
     }
 }
