@@ -17,9 +17,9 @@ namespace ServerBackend.Controllers
         }
 
         [HttpPost(Name = "PostProblem")]
-        public string Post(Problem problem)
+        public IResponse Post(Problem problem)
         {
-            return problem.ToString();
+            return InsertProblemService.Instance().execute(problem);
         }
     }
 }

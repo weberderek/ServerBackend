@@ -1,9 +1,10 @@
 ﻿using ServerBackend.DAOs;
+using ServerBackend.Models;
 using ServerBackend.Responses;
 
 namespace ServerBackend.Services
 {
-    internal class GetProblemService : IService
+    internal class GetProblemService
     {
         private static GetProblemService _instance;
 
