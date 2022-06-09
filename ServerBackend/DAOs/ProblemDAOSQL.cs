@@ -22,6 +22,95 @@ namespace ServerBackend.DAOs
             return new SqlConnection(connstring);
         }
 
+        private Problem GetProblemFromReader(SqlDataReader reader)
+        {
+            string? partID = "";
+            string? VIN = "";
+            int userID = -1;
+            int stationID = -1;
+            int sideID = -1;
+            string? workInstruction = "";
+            int partQuantity = -1;
+            bool missingPart = false;
+            string? issue = "";
+            DateTime? openedOn = DateTime.MinValue;
+            int closedByUser = -1;
+            int closedOnStation = -1;
+            int closedQuantity = -1;
+            string? closedComments = "";
+            string? fixType = "";
+            DateTime? closedOn = DateTime.MinValue;
+            if (!reader.IsDBNull(0))
+            {
+                partID = reader.GetString(0);
+            }
+            if (!reader.IsDBNull(1))
+            {
+                VIN = reader.GetString(1);
+            }
+            if (!reader.IsDBNull(2))
+            {
+                userID = reader.GetInt32(2);
+            }
+            if (!reader.IsDBNull(3))
+            {
+                stationID = reader.GetInt32(3);
+            }
+            if (!reader.IsDBNull(4))
+            {
+                sideID = reader.GetInt32(4);
+            }
+            if (!reader.IsDBNull(5))
+            {
+                workInstruction = reader.GetString(5);
+            }
+            if (!reader.IsDBNull(6))
+            {
+                partQuantity = reader.GetInt32(6);
+            }
+            if (!reader.IsDBNull(7))
+            {
+                missingPart = reader.GetBoolean(7);
+            }
+            if (!reader.IsDBNull(8))
+            {
+                issue = reader.GetString(8);
+            }
+            if (!reader.IsDBNull(9))
+            {
+                openedOn = reader.GetDateTime(9);
+            }
+            if (!reader.IsDBNull(10))
+            {
+                closedByUser = reader.GetInt32(10);
+            }
+            if (!reader.IsDBNull(11))
+            {
+                closedOnStation = reader.GetInt32(11);
+            }
+            if (!reader.IsDBNull(12))
+            {
+                closedQuantity = reader.GetInt32(12);
+            }
+            if (!reader.IsDBNull(13))
+            {
+                closedComments = reader.GetString(13);
+            }
+            if (!reader.IsDBNull(14))
+            {
+                fixType = reader.GetString(14);
+            }
+            if (!reader.IsDBNull(15))
+            {
+                closedOn = reader.GetDateTime(15);
+            }
+            return new Problem(partID, VIN, userID,
+                stationID, sideID, workInstruction, partQuantity,
+                missingPart, issue, openedOn, closedByUser,
+                closedOnStation, closedQuantity, closedComments,
+                fixType, closedOn);
+        }
+
         public List<Problem> selectAllProblems()
         {
             List<Problem> problems = new List<Problem>();
@@ -34,94 +123,30 @@ namespace ServerBackend.DAOs
             reader = command.ExecuteReader();
             while (reader.Read())
             {
-                string? partID = "";
-                string? VIN = "";
-                int userID = -1;
-                int stationID = -1;
-                int sideID = -1;
-                string? workInstruction = "";
-                int partQuantity = -1;
-                bool missingPart = false;
-                string? issue = "";
-                DateTime? openedOn = DateTime.MinValue;
-                int closedByUser = -1;
-                int closedOnStation = -1;
-                int closedQuantity = -1;
-                string? closedComments = "";
-                string? fixType = "";
-                DateTime? closedOn = DateTime.MinValue;
-                if (!reader.IsDBNull(0))
-                {
-                    partID = reader.GetString(0);
-                }
-                if (!reader.IsDBNull(1))
-                {
-                    VIN = reader.GetString(1);
-                }
-                if (!reader.IsDBNull(2))
-                {
-                    userID = reader.GetInt32(2);
-                }
-                if (!reader.IsDBNull(3))
-                {
-                    stationID = reader.GetInt32(3);
-                }
-                if (!reader.IsDBNull(4))
-                {
-                    sideID = reader.GetInt32(4);
-                }
-                if (!reader.IsDBNull(5))
-                {
-                    workInstruction = reader.GetString(5);
-                }
-                if (!reader.IsDBNull(6))
-                {
-                    partQuantity = reader.GetInt32(6);
-                }
-                if (!reader.IsDBNull(7))
-                {
-                    missingPart = reader.GetBoolean(7);
-                }
-                if (!reader.IsDBNull(8))
-                {
-                    issue = reader.GetString(8);
-                }
-                if (!reader.IsDBNull(9))
-                {
-                    openedOn = reader.GetDateTime(9);
-                }
-                if (!reader.IsDBNull(10))
-                {
-                    closedByUser = reader.GetInt32(10);
-                }
-                if (!reader.IsDBNull(11))
-                {
-                    closedOnStation = reader.GetInt32(11);
-                }
-                if (!reader.IsDBNull(12))
-                {
-                    closedQuantity = reader.GetInt32(12);
-                }
-                if (!reader.IsDBNull(13))
-                {
-                    closedComments = reader.GetString(13);
-                }
-                if (!reader.IsDBNull(14))
-                {
-                    fixType = reader.GetString(14);
-                }
-                if (!reader.IsDBNull(15))
-                {
-                    closedOn = reader.GetDateTime(15);
-                }
-                problems.Add(new Problem(partID, VIN, userID,
-                    stationID, sideID, workInstruction, partQuantity,
-                    missingPart, issue, openedOn, closedByUser,
-                    closedOnStation, closedQuantity, closedComments,
-                    fixType, closedOn));
+                problems.Add(GetProblemFromReader(reader));
             }
             cnn.Close();
             return problems;
+        }
+
+        public string insertProblem(Problem problem)
+        {
+            SqlConnection cnn = connectToDB();
+            cnn.Open();
+            SqlCommand command;
+            string query = string.Format("INSERT INTO problems VALUES " +
+                "(\'{0}\', \'{1}\', {2}, {3}, {4}, \'{5}\', {6}, {7}, " +
+                "\'{8}\', \'{9}\', {10}, {11}, {12}, \'{13}\', \'{14}\', " +
+                "\'{15}\');", problem.partID, problem.VIN, problem.userID,
+                problem.stationID, problem.sideID, problem.workInstruction, 
+                problem.partQuantity, Convert.ToInt32(problem.missingPart), 
+                problem.issue, problem.openedOn, problem.closedByUser, 
+                problem.closedOnStation, problem.closedQuantity, 
+                problem.closedComments, problem.fixType, problem.closedOn);
+            command = new SqlCommand(query, cnn);
+            command.ExecuteNonQuery();
+            cnn.Close();
+            return "success";
         }
     }
 }

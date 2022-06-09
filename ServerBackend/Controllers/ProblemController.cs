@@ -13,15 +13,13 @@ namespace ServerBackend.Controllers
         [HttpGet(Name = "GetProblem")]
         public IResponse Get()
         {
-            IResponse response = GetProblemService.Instance().execute();
-            return response;
+            return GetProblemService.Instance().execute();
         }
 
         [HttpPost(Name = "PostProblem")]
-        public string Post(string request)
+        public IResponse Post(Problem problem)
         {
-            return request;
-            IModel problem = new Problem();
+            return InsertProblemService.Instance().execute(problem);
         }
     }
 }
