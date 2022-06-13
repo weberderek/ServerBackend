@@ -4,7 +4,7 @@ using ServerBackend.Models;
 
 namespace ServerBackend.Services
 {
-    public class InsertProblemService
+    public class InsertProblemService : IService
     {
         private static InsertProblemService _instance;
 
@@ -14,10 +14,10 @@ namespace ServerBackend.Services
                 _instance = new InsertProblemService();
             return _instance;
         }
-        public IResponse execute(Problem problem)
+        public IResponse execute(Object o)
         {
             IProblemDAO dao = ProblemDAOSQL.Instance();
-            return new InsertResponse(dao.insertProblem(problem));
+            return new InsertResponse(dao.insertProblem((Problem) o));
         }
     }
 }

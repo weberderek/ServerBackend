@@ -13,7 +13,7 @@ namespace ServerBackend.Controllers
         [HttpGet(Name = "GetProblem")]
         public IResponse Get()
         {
-            return GetProblemService.Instance().execute();
+            return GetProblemService.Instance().execute(null);
         }
 
         [HttpPost(Name = "PostProblem")]

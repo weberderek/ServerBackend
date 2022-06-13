@@ -4,7 +4,7 @@ using ServerBackend.Responses;
 
 namespace ServerBackend.Services
 {
-    internal class GetProblemService
+    internal class GetProblemService : IService
     {
         private static GetProblemService _instance;
 
@@ -14,7 +14,7 @@ namespace ServerBackend.Services
                 _instance = new GetProblemService();
             return _instance;
         }
-        public IResponse execute()
+        public IResponse execute(Object o)
         {
             IProblemDAO dao = ProblemDAOSQL.Instance();
             return new GetProblemResponse(dao.selectAllProblems());
