@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace ServerBackend.DAOs
 {
-    public class ProblemDAOSQL : IProblemDAO
+    internal class ProblemDAOSQL : IProblemDAO
     {
         private static ProblemDAOSQL _instance = null;
         public static ProblemDAOSQL Instance()

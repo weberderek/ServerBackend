@@ -4,7 +4,7 @@ using ServerBackend.Models;
 
 namespace ServerBackend.Services
 {
-    public class InsertProblemService : IService
+    internal class InsertProblemService : IService
     {
         private static InsertProblemService _instance;
 
