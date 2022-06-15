@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServerBackend.Responses;
+using ServerBackend.Services;
 
 namespace ServerBackend.Controllers
 {
@@ -7,7 +9,7 @@ namespace ServerBackend.Controllers
     public class ResultController : ControllerBase
     {
         [HttpGet(Name = "getResult")]
-        public IResponseCookies Get()
+        public IResponse Get()
         {
             return GetResultService.Instance().execute(null);
         }
