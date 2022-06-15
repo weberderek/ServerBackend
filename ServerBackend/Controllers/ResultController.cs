@@ -1,6 +1,15 @@
-﻿namespace ServerBackend.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace ServerBackend.Controllers
 {
-    public class ResultController
+    [ApiController]
+    [Route("[controller]")]
+    public class ResultController : ControllerBase
     {
+        [HttpGet(Name = "getResult")]
+        public IResponseCookies Get()
+        {
+            return GetResultService.Instance().execute(null);
+        }
     }
 }
