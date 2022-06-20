@@ -101,7 +101,7 @@ namespace ServerBackend.DAOs
             }
             if (!reader.IsDBNull(6))
             {
-                //Relation = reader.GetType(6);
+                Relation = reader.GetValue(6).ToString();
                 //Relation = reader.GetString(6);
             }
             if (!reader.IsDBNull(7))
